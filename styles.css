@@ -8,6 +8,7 @@
   --orange-dark: #e46a27;
   --sand: #f7e6c4;
   --card: #ffffff;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 16px;
 }
 
@@ -44,6 +45,18 @@ footer {
   background: radial-gradient(circle at top right, rgba(31, 184, 198, 0.15), transparent 45%),
     var(--bg);
   padding-top: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://www.transparenttextures.com/patterns/white-paper.png");
+  opacity: 0.15;
+  pointer-events: none;
+  animation: drift 30s linear infinite;
 }
 
 .nav {
@@ -121,17 +134,22 @@ h1 {
   font-weight: 600;
   border: 2px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn.primary {
   background: linear-gradient(120deg, var(--turquoise), var(--orange));
   color: white;
   box-shadow: 0 12px 25px rgba(31, 184, 198, 0.3);
+  background-size: 200%;
+  animation: gradientFlow 6s linear infinite;
 }
 
 .btn.outline {
   border-color: var(--turquoise);
   color: var(--turquoise-dark);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn.full {
@@ -143,7 +161,8 @@ h1 {
 }
 
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(17, 128, 138, 0.25);
 }
 
 .hero-note {
@@ -287,6 +306,56 @@ h1 {
 .packages-note {
   margin-top: 1.5rem;
   color: var(--muted);
+}
+
+.testimonial-slider {
+  margin: 3rem 0;
+  background: #fffaf6;
+  border-radius: 2rem;
+  padding: 3rem;
+  box-shadow: 0 25px 60px rgba(8, 42, 47, 0.08);
+}
+
+.slider {
+  position: relative;
+  min-height: 200px;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+}
+
+.slide.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide h3 {
+  margin-bottom: 0.5rem;
+}
+
+.slider-dots {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.slider-dots button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(31, 184, 198, 0.3);
+  cursor: pointer;
+}
+
+.slider-dots button.active {
+  background: var(--turquoise);
 }
 
 .gallery-grid {
@@ -481,6 +550,38 @@ table th {
   min-height: 320px;
   border: 0;
   border-radius: 1.2rem;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-10%, -10%, 0);
+  }
 }
 
 @media (max-width: 768px) {
